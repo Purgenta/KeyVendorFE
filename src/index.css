@@ -1,69 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100;300;400;500&family=Nunito+Sans:wght@200;300;400;600&display=swap");
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+  --main-text-color: #272727;
+  --secondary-text-color: #f5ebeb;
+  --main-nav-link-color: #f2f2f2;
+  --main-background-color: #f2f2f2;
+  --main-highlight-color: #ffffff;
+  --main-button-color: #4681f4;
+  --main-button-text-color: white;
+  --main-transactions-background-color: rgb(255, 215, 115);
+  --main-nav-background-color: rgba(22, 22, 77, 0.99);
+  --main-glasified-background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.1)
+  );
 }
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+ul {
+  list-style-type: none;
 }
-a:hover {
-  color: #535bf2;
+#root {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  margin: 0rem auto;
 }
-
+img {
+  max-width: 100%;
+}
+button:disabled {
+  opacity: 0.6;
+}
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  flex-direction: column;
+  overflow-x: hidden;
   min-height: 100vh;
+  position: relative;
+  font-family: "Nunito Sans", sans-serif;
+  color: #272727;
+  background-color: rgb(252, 252, 252);
 }
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.flex-container {
+  display: flex;
+  flex-direction: column;
 }
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+textarea {
+  max-width: 95%;
+  box-sizing: border-box;
+  padding: 0.2rem;
 }
-button:hover {
-  border-color: #646cff;
+a {
+  text-decoration: none;
+  color: inherit;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+#main-header {
+  background-color: rgba(22, 22, 77, 0.99);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+main {
+  flex-grow: 1;
 }

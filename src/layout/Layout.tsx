@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { Image } from "@chakra-ui/react";
+import { authSelector } from "../redux/authSlice/authSlice";
+import { useSelector } from "react-redux";
 import {
   IconButton,
   Avatar,
@@ -23,7 +25,6 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  Button,
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -90,12 +91,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Image
-          src={"https://www.g2a.com/static/assets/images/logo_g2a_white.svg"}
-          width={75}
-          height={75}
-          alt="logo"
-        ></Image>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
@@ -112,7 +107,7 @@ interface NavItemProps extends FlexProps {
   children: ReactText;
   href: string;
 }
-const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, href, ...rest }: NavItemProps) => {
   return (
     <Link
       href={href}
@@ -142,7 +137,6 @@ const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
             as={icon}
           />
         )}
-        {<Outlet />}
       </Flex>
     </Link>
   );
@@ -153,6 +147,8 @@ interface MobileProps extends FlexProps {
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const navigate = useNavigate();
+  const auth = useSelector(authSelector);
+  console.log(auth);
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -203,8 +199,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm"></Text>
-                  <Text fontSize="xs" color="gray.600"></Text>
+                  <Text fontSize="sm">{auth.email || ""}</Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
                   <FiChevronDown />
