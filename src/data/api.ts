@@ -7,5 +7,8 @@ const apiEndpoints = {
     login: "auth/login",
     verifyToken: (verifyToken: string) => `auth/${verifyToken}/completeLogin`,
   },
+  vendor: {
+    create: "vendor/create",
+  },
 };
 export default apiEndpoints;

@@ -4,6 +4,7 @@ import SmallWithLogoLeft from "../layout/Footer";
 import Login from "./pages/login/Login";
 import { Box } from "@chakra-ui/react";
 import Register from "./pages/register/Register";
+import Sales from "./pages/sales/Sales";
 const Router = () => {
   return (
     <Routes>
@@ -19,6 +20,7 @@ const Router = () => {
       >
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
+        <Route path="/sales" element={<Sales />}></Route>
         <Route path="*" element={<></>}></Route>
       </Route>
     </Routes>

@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { Image } from "@chakra-ui/react";
-import { authSelector } from "../redux/authSlice/authSlice";
-import { useSelector } from "react-redux";
+import { authSelector, authenticate } from "../redux/authSlice/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 import {
   IconButton,
   Avatar,
@@ -29,21 +29,24 @@ import {
 import {
   FiHome,
   FiTrendingUp,
-  FiCompass,
   FiMenu,
   FiChevronDown,
+  FiDatabase,
 } from "react-icons/fi";
 import { IconType } from "react-icons";
-import { ReactText } from "react";
 interface LinkItemProps {
   name: string;
   icon: IconType;
   href: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome, href: "/" },
-  { name: "Search", icon: FiTrendingUp, href: "/search" },
-  { name: "Profile", icon: FiCompass, href: "/profile" },
+  { name: "Keys", icon: FiHome, href: "/" },
+];
+const AdminRoutes: LinkItemProps[] = [
+  { name: "Admin", icon: FiDatabase, href: "/admin" },
+];
+const SalesRoutes: LinkItemProps[] = [
+  { name: "Sales", icon: FiTrendingUp, href: "/sales" },
 ];
 export default function SidebarWithHeader() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -79,6 +82,8 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  const { roles } = useSelector(authSelector);
+  const userRoles = new Set(roles ? roles : []);
   return (
     <Box
       transition="3s ease"
@@ -95,19 +100,37 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       </Flex>
       {LinkItems.map((link) => (
         <NavItem href={link.href} key={link.name} icon={link.icon}>
-          {link.name}
+          <Text>{link.name}</Text>
         </NavItem>
       ))}
+      {userRoles.has("Marketing") ? (
+        SalesRoutes.map((link) => (
+          <NavItem href={link.href} key={link.name} icon={link.icon}>
+            <Text>{link.name}</Text>
+          </NavItem>
+        ))
+      ) : (
+        <></>
+      )}
+      {userRoles.has("Administrator") ? (
+        AdminRoutes.map((link) => (
+          <NavItem href={link.href} key={link.name} icon={link.icon}>
+            <Text>{link.name}</Text>
+          </NavItem>
+        ))
+      ) : (
+        <></>
+      )}
     </Box>
   );
 };
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
-  children: ReactText;
+  children: React.ReactNode;
   href: string;
 }
-const NavItem = ({ icon, href, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, href, children }: NavItemProps) => {
   return (
     <Link
       href={href}
@@ -125,7 +148,6 @@ const NavItem = ({ icon, href, ...rest }: NavItemProps) => {
           bg: "cyan.400",
           color: "white",
         }}
-        {...rest}
       >
         {icon && (
           <Icon
@@ -137,6 +159,7 @@ const NavItem = ({ icon, href, ...rest }: NavItemProps) => {
             as={icon}
           />
         )}
+        {children}
       </Flex>
     </Link>
   );
@@ -148,7 +171,7 @@ interface MobileProps extends FlexProps {
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const navigate = useNavigate();
   const auth = useSelector(authSelector);
-  console.log(auth);
+  const dispatch = useDispatch();
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -210,7 +233,29 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
-              <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
+              {auth.email ? (
+                <>
+                  <MenuItem
+                    onClick={() =>
+                      dispatch(
+                        authenticate({ email: "", jwt: "", roles: undefined })
+                      )
+                    }
+                  >
+                    Logout
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate("/profile")}>
+                    Profile
+                  </MenuItem>
+                </>
+              ) : (
+                <>
+                  <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
+                  <MenuItem onClick={() => navigate("/login")}>
+                    Register
+                  </MenuItem>
+                </>
+              )}
               <MenuDivider />
             </MenuList>
           </Menu>
