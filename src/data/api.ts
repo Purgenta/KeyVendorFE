@@ -10,5 +10,9 @@ const apiEndpoints = {
   vendor: {
     create: "vendor/create",
   },
+  category: {
+    rootCategories: "category/rootcategories",
+    leafCategories: "category/all",
+  },
 };
 export default apiEndpoints;
