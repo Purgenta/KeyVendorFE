@@ -1,10 +1,10 @@
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
 import axios from "axios";
 import type { AxiosRequestConfig, AxiosError } from "axios";
-
+import { createApi } from "@reduxjs/toolkit/query/react";
 const axiosBaseQuery =
   (
-    { baseUrl }: { baseUrl: string } = { baseUrl: "" }
+    { baseUrl }: { baseUrl: string } = { baseUrl: "http://localhost:5098/" }
   ): BaseQueryFn<
     {
       url: string;
@@ -37,4 +37,9 @@ const axiosBaseQuery =
     }
   };
 
+export const emptySplitApi = createApi({
+  reducerPath: "api",
+  baseQuery: axiosBaseQuery(),
+  endpoints: () => ({}),
+});
 export default axiosBaseQuery;

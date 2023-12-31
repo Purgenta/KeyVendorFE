@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useRegisterMutation } from "../../../redux/api/auth";
+import { useRegisterMutation } from "../../../redux/api/user";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 const schema = yup
@@ -12,7 +12,7 @@ const Register = () => {
   const { register, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
-  const [sendRegisterRequest, { error }] = useRegisterMutation();
+  const [sendRegisterRequest, { isError: error }] = useRegisterMutation();
   const toast = useToast();
   return (
     <Box>
@@ -27,7 +27,7 @@ const Register = () => {
       <form
         onSubmit={handleSubmit(async (data) => {
           try {
-            await sendRegisterRequest(data.email);
+            await sendRegisterRequest({ email: data.email });
             toast({ description: "Succesfully registered the user" });
           } catch (error) {
             toast({ description: "Error while registering" });

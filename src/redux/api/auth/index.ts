@@ -1,18 +1,13 @@
-// api.ts
-import { FetchBaseQueryError, createApi } from "@reduxjs/toolkit/query/react";
-import axiosBaseQuery from "../baseQuery";
-import { base } from "../index";
 import { authenticate } from "../../slices/authSlice/index";
 import { increaseFailedLoginAttempts } from "../../slices/authSlice/index";
+import { emptySplitApi } from "../baseQuery";
 import {
   AuthRequestParams,
   AuthenticationResponse,
   ValidationToken,
 } from "./types";
-const baseUrl = `${base}/auth`;
-export const api = createApi({
-  reducerPath: "api",
-  baseQuery: axiosBaseQuery({ baseUrl }),
+import { AxiosError } from "axios";
+export const authApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<AuthenticationResponse, AuthRequestParams>({
       async queryFn(arg, api, _, baseQuery) {
@@ -20,12 +15,12 @@ export const api = createApi({
         const { dispatch } = api;
         const { data, error } = await baseQuery({
           method: "POST",
-          url: "/login",
+          url: "auth/login",
           data: { emailAddress },
         });
         if (error) {
           dispatch(increaseFailedLoginAttempts());
-          return { error: error as FetchBaseQueryError };
+          return { error: error as AxiosError };
         }
         const { verificationToken } = data as ValidationToken;
         const authenticationResponse = await baseQuery({
@@ -34,7 +29,7 @@ export const api = createApi({
         });
         if (authenticationResponse.error) {
           dispatch(increaseFailedLoginAttempts());
-          return { error: authenticationResponse.error as FetchBaseQueryError };
+          return { error: authenticationResponse.error as AxiosError };
         }
         dispatch(
           authenticate(authenticationResponse.data as AuthenticationResponse)
@@ -42,14 +37,7 @@ export const api = createApi({
         return { data: authenticationResponse.data as AuthenticationResponse };
       },
     }),
-    register: builder.mutation({
-      query: ({ emailAdress }) => ({
-        url: "/register",
-        method: "GET",
-        body: { emailAdress },
-      }),
-    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation } = api;
+export const { useLoginMutation } = authApi;
