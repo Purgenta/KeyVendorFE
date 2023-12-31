@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { Image } from "@chakra-ui/react";
-import { authSelector } from "../redux/authSlice/authSlice";
+import { authSelector } from "../redux/slices/authSlice";
 import { useSelector } from "react-redux";
 import {
   IconButton,
@@ -148,7 +148,6 @@ interface MobileProps extends FlexProps {
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const navigate = useNavigate();
   const auth = useSelector(authSelector);
-  console.log(auth);
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -210,8 +209,20 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
-              <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
-              <MenuDivider />
+              {auth.isAuthenticated && (
+                <>
+                  <MenuItem onClick={() => navigate("/profile")}>
+                    Profile
+                  </MenuItem>
+                  <MenuDivider />
+                </>
+              )}
+              {!auth.isAuthenticated && (
+                <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
+              )}
+              <MenuItem onClick={() => navigate("/register")}>
+                Register
+              </MenuItem>
             </MenuList>
           </Menu>
         </Flex>

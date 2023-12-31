@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { Box, Button, Text, useToast } from "@chakra-ui/react";
-import useLogin from "../../../hooks/requests/useLogin";
+import { useLoginMutation } from "../../../redux/api/auth";
 const schema = yup
   .object({
     email: yup.string().required().email(),
@@ -12,11 +12,11 @@ const Login = () => {
   const { register, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
-  const { error, sendLoginRequest } = useLogin();
+  const [sendLoginRequest, { isError }] = useLoginMutation();
   const toast = useToast();
   return (
     <Box>
-      {error ? (
+      {isError ? (
         <Text
           marginBottom={"10"}
           color={"red.500"}
@@ -27,7 +27,7 @@ const Login = () => {
       <form
         onSubmit={handleSubmit(async (data) => {
           try {
-            await sendLoginRequest(data.email);
+            await sendLoginRequest({ emailAddress: data.email });
             toast({ description: "Succesfully registered the user" });
           } catch (error) {
             toast({ description: "Error while registering" });

@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useRegisterMutation } from "../../../redux/api/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 const schema = yup
@@ -7,12 +8,11 @@ const schema = yup
   })
   .required();
 import { Box, Button, Text, useToast } from "@chakra-ui/react";
-import useRegister from "../../../hooks/requests/useRegister";
 const Register = () => {
-  const { error, sendRegisterRequest } = useRegister();
   const { register, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
+  const [sendRegisterRequest, { error }] = useRegisterMutation();
   const toast = useToast();
   return (
     <Box>
