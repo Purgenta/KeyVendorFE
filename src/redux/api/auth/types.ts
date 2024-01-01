@@ -3,7 +3,7 @@ export type AuthRequestParams = {
   emailAddress: string;
 };
 export type ValidationToken = {
-  verificationToken: string;
+  validationToken: string;
 };
 export type AuthenticationResponse = {
   roles: Role[];

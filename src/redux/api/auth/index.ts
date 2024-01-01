@@ -22,9 +22,9 @@ export const authApi = emptySplitApi.injectEndpoints({
           dispatch(increaseFailedLoginAttempts());
           return { error: error as AxiosError };
         }
-        const { verificationToken } = data as ValidationToken;
+        const { validationToken } = data as ValidationToken;
         const authenticationResponse = await baseQuery({
-          url: `${verificationToken}/completeLogin`,
+          url: `auth/${validationToken}/completeLogin`,
           method: "GET",
         });
         if (authenticationResponse.error) {

@@ -23,8 +23,8 @@ const LoginForm = () => {
   const onSubmit = (data: { email: string }) => {
     sendLoginRequest({ emailAddress: data.email })
       .unwrap()
-      .then(() => toast({ description: "Succesfully registered the user" }))
-      .catch(() => toast({ description: "Error while registering" }));
+      .then(() => toast({ description: "Succesfull login" }))
+      .catch(() => toast({ description: "Error while logging in" }));
   };
 
   return (

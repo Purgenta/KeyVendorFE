@@ -29,6 +29,7 @@ import {
 import {
   FiHome,
   FiTrendingUp,
+  FiImage,
   FiCompass,
   FiMenu,
   FiChevronDown,
@@ -44,6 +45,9 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, href: "/" },
   { name: "Search", icon: FiTrendingUp, href: "/search" },
   { name: "Profile", icon: FiCompass, href: "/profile" },
+];
+const SalesMarketingItems: Array<LinkItemProps> = [
+  { name: "Sales", icon: FiImage, href: "/sales" },
 ];
 export default function SidebarWithHeader() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -79,6 +83,8 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  const { roles } = useSelector(authSelector);
+  const isSales = !!roles && roles.includes("Sales");
   return (
     <Box
       transition="3s ease"
@@ -94,10 +100,31 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem href={link.href} key={link.name} icon={link.icon}>
+        <NavItem
+          color={"blackAlpha.500"}
+          href={link.href}
+          key={link.name}
+          icon={link.icon}
+        >
           {link.name}
         </NavItem>
       ))}
+      {isSales && (
+        <>
+          {SalesMarketingItems.map((link) => {
+            return (
+              <NavItem
+                color={"blackAlpha.500"}
+                href={link.href}
+                key={link.name}
+                icon={link.icon}
+              >
+                {link.name}
+              </NavItem>
+            );
+          })}
+        </>
+      )}
     </Box>
   );
 };
