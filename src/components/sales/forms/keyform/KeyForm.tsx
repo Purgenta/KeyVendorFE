@@ -1,4 +1,3 @@
-// src/components/KeyForm/index.tsx
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -7,19 +6,24 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Text,
   Select,
-  useToast,
 } from "@chakra-ui/react";
 import schema from "./validation";
-
+import { useGetCategoriesQuery } from "../../../../redux/api/category";
+import { useGetVendorsQuery } from "../../../../redux/api/vendor";
 const KeyForm = () => {
   const { register, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
-  const vendors = []; // TODO: Get vendors from </API>
+  const { data, error } = useGetCategoriesQuery();
+  const { data: vendors, error: vendorsError } = useGetVendorsQuery();
+  if (!data || !vendors) return <></>;
+  if (!error || !vendorsError)
+    return <Text color={"red.500"}>Something went wrong</Text>;
   return (
     <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(() => {})}>
         <FormControl id="name" isRequired>
           <FormLabel>Key Name</FormLabel>
           <Input type="text" {...register("name")} />
@@ -45,6 +49,18 @@ const KeyForm = () => {
         <FormControl id="expirationDate" isRequired>
           <FormLabel>Expiration Date</FormLabel>
           <Input type="date" {...register("expirationDate")} />
+        </FormControl>
+        <FormControl id="category" isRequired>
+          <FormLabel>Category</FormLabel>
+          <Select placeholder="Select category" {...register("category")}>
+            {data.map((category) => {
+              return (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              );
+            })}
+          </Select>
         </FormControl>
         <Button mt={4} colorScheme="teal" type="submit">
           Create Key

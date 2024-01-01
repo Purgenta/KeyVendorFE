@@ -6,6 +6,7 @@ const schema = yup
     image: yup.mixed().required(),
     price: yup.number().required().positive(),
     expirationDate: yup.date().required().min(new Date()),
+    category: yup.string().required(),
   })
   .required();
 export default schema;
