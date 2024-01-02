@@ -1,6 +1,6 @@
 import { emptySplitApi } from "../baseQuery";
 
-import type { Vendor } from "./types";
+import type { CreateVendorArgs, Vendor } from "./types";
 export const vendorApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getVendors: builder.query<Vendor[], void>({
@@ -9,11 +9,11 @@ export const vendorApi = emptySplitApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    createVendor: builder.mutation<Vendor, Vendor>({
-      query: (body) => ({
+    createVendor: builder.mutation<Vendor, CreateVendorArgs>({
+      query: (data) => ({
         url: "vendor/create",
         method: "POST",
-        body,
+        data,
       }),
     }),
   }),

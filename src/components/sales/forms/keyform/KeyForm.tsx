@@ -19,7 +19,7 @@ const KeyForm = () => {
   const { data, error } = useGetCategoriesQuery();
   const { data: vendors, error: vendorsError } = useGetVendorsQuery();
   if (!data || !vendors) return <></>;
-  if (!error || !vendorsError)
+  if (error || vendorsError)
     return <Text color={"red.500"}>Something went wrong</Text>;
   return (
     <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
@@ -40,7 +40,11 @@ const KeyForm = () => {
         </FormControl>
         <FormControl id="image" isRequired>
           <FormLabel>Image</FormLabel>
-          <Input type="file" {...register("image")} />
+          <Input
+            accept="image/png, image/gif, image/jpeg"
+            type="file"
+            {...register("image")}
+          />
         </FormControl>
         <FormControl id="price" isRequired>
           <FormLabel>Price</FormLabel>

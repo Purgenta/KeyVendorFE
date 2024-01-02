@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { Image } from "@chakra-ui/react";
 import { authSelector } from "../redux/slices/authSlice";
 import { useSelector } from "react-redux";
+import Link from "../ui/Link/Link";
 import {
   IconButton,
   Avatar,
@@ -13,7 +14,6 @@ import {
   VStack,
   Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
@@ -35,7 +35,6 @@ import {
   FiChevronDown,
 } from "react-icons/fi";
 import { IconType } from "react-icons";
-import { ReactText } from "react";
 interface LinkItemProps {
   name: string;
   icon: IconType;
@@ -101,26 +100,24 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       </Flex>
       {LinkItems.map((link) => (
         <NavItem
+          name={link.name}
           color={"blackAlpha.500"}
           href={link.href}
           key={link.name}
           icon={link.icon}
-        >
-          {link.name}
-        </NavItem>
+        />
       ))}
       {isSales && (
         <>
           {SalesMarketingItems.map((link) => {
             return (
               <NavItem
+                name={link.name}
                 color={"blackAlpha.500"}
                 href={link.href}
                 key={link.name}
                 icon={link.icon}
-              >
-                {link.name}
-              </NavItem>
+              ></NavItem>
             );
           })}
         </>
@@ -131,13 +128,13 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
-  children: ReactText;
   href: string;
+  name: string;
 }
-const NavItem = ({ icon, href, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, href, name, ...rest }: NavItemProps) => {
   return (
     <Link
-      href={href}
+      to={href}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >
@@ -164,6 +161,8 @@ const NavItem = ({ icon, href, ...rest }: NavItemProps) => {
             as={icon}
           />
         )}
+
+        <Text color={"blackAlpha.800"}>{name}</Text>
       </Flex>
     </Link>
   );
@@ -225,7 +224,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">{auth.email || ""}</Text>
+                  <Text fontSize="sm">{auth.emailAddress || ""}</Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
                   <FiChevronDown />

@@ -7,6 +7,6 @@ export type ValidationToken = {
 };
 export type AuthenticationResponse = {
   roles: Role[];
-  jwt: string;
-  email: string;
+  jwtToken: string;
+  emailAddress: string;
 };

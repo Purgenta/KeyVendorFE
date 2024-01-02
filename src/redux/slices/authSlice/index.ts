@@ -4,9 +4,9 @@ import { RootState } from "../../store";
 import { AuthenticateUserActionPayload } from "./type";
 import { InitialState } from "./type";
 const initialState: InitialState = {
-  email: "",
+  emailAddress: undefined,
   roles: undefined,
-  jwt: "",
+  jwtToken: undefined,
   isAuthenticated: false,
   failedLoginAttempts: 0,
 };
@@ -19,10 +19,10 @@ const authSlice = createSlice({
       payload: PayloadAction<AuthenticateUserActionPayload>
     ) => {
       const {
-        payload: { email, jwt, roles },
+        payload: { emailAddress, jwtToken, roles },
       } = payload;
-      state.email = email;
-      state.jwt = jwt;
+      state.emailAddress = emailAddress;
+      state.jwtToken = jwtToken;
       state.roles = roles;
       state.isAuthenticated = true;
       state.failedLoginAttempts = 0;
@@ -30,8 +30,23 @@ const authSlice = createSlice({
     increaseFailedLoginAttempts: (state) => {
       state.failedLoginAttempts += 1;
     },
+    updateToken: (state, payload: PayloadAction<string>) => {
+      state.jwtToken = payload.payload;
+    },
+    logout: (state) => {
+      state.emailAddress = undefined;
+      state.jwtToken = undefined;
+      state.roles = undefined;
+      state.isAuthenticated = false;
+      state.failedLoginAttempts = 0;
+    },
   },
 });
 export default authSlice.reducer;
-export const { authenticate, increaseFailedLoginAttempts } = authSlice.actions;
+export const {
+  authenticate,
+  increaseFailedLoginAttempts,
+  logout,
+  updateToken,
+} = authSlice.actions;
 export const authSelector = (store: RootState) => store.auth;

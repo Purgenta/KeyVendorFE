@@ -1,14 +1,14 @@
 import { Role } from "../../../types";
 type InitialState = {
-  email: string;
+  emailAddress: string | undefined;
   roles: undefined | Role[];
-  jwt: string;
+  jwtToken: string | undefined;
   isAuthenticated: boolean;
   failedLoginAttempts: number;
 };
 export type AuthenticateUserActionPayload = {
-  email: string;
-  jwt: string;
+  emailAddress: string;
+  jwtToken: string;
   roles: Role[];
 };
 export type { InitialState };
