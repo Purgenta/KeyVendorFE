@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import KeyForm from "../../../../components/sales/forms/KeyForm/KeyForm";
+import KeyForm from "../../../../components/sales/forms/keyform/KeyForm";
 import { useCreateKeyMutation } from "../../../../redux/api/key";
 const CreateKey = () => {
   const [createKey, { error }] = useCreateKeyMutation();

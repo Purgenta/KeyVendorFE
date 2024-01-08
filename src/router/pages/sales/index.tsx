@@ -1,31 +1,61 @@
-import React from "react";
-import { Box } from "@chakra-ui/react";
-import { useCreatedKeysQuery } from "../../../redux/api/key";
-import { Button } from "@chakra-ui/react";
-import { useParams } from "react-router";
+import { Box, Button, Flex } from "@chakra-ui/react";
+import {
+  useCreatedKeysQuery,
+  useDeleteKeyMutation,
+} from "../../../redux/api/key";
+import ReactPaginate from "react-paginate";
+import { useSearchParams } from "react-router-dom";
+import style from "./index.module.css";
 const Sales = () => {
-  const { page } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { data: response } = useCreatedKeysQuery({
-    page: Number(page) || 1,
+    page: Number(searchParams.get("page")) || 1,
     size: 10,
   });
-  console.log(response);
+  const [deleteKey, { isError, isLoading }] = useDeleteKeyMutation();
   return (
     <Box>
-      {response &&
-        response.data?.map((key) => {
-          return (
-            <Box key={key.id}>
+      {isError && <div>Something went wrong</div>}
+      {response && (
+        <>
+          {response.data?.map((key) => (
+            <Flex
+              justify={"center"}
+              align={"center"}
+              width={"100%"}
+              key={key.id}
+            >
               {key.name}
               <Button variant="contained" color="primary">
                 Edit
               </Button>
-              <Button variant="contained" color="secondary">
+              <Button
+                disabled={isLoading}
+                onClick={() => deleteKey(key.id)}
+                variant="contained"
+                color="secondary"
+              >
                 Delete
               </Button>
-            </Box>
-          );
-        })}
+            </Flex>
+          ))}
+          <ReactPaginate
+            previousLabel={"previous"}
+            nextLabel={"next"}
+            breakLabel={"..."}
+            className={style.pagination}
+            breakClassName={"break-me"}
+            pageCount={response ? response.pagination.pageCount : 1}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={(data) =>
+              setSearchParams((prev) => ({ ...prev, page: data.selected + 1 }))
+            }
+            containerClassName={"pagination"}
+            activeClassName={"active"}
+          />
+        </>
+      )}
     </Box>
   );
 };

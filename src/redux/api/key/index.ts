@@ -51,10 +51,10 @@ export const keyApi = emptySplitApi.injectEndpoints({
     }),
     deleteKey: builder.mutation<void, string>({
       query: (id) => ({
-        url: `key/${id}`,
+        url: `key/delete/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Key"],
+      invalidatesTags: ["Key", "CreatedKeys"],
     }),
     createdKeys: builder.query<
       PaginatedData<Key>,
@@ -78,5 +78,9 @@ export const keyApi = emptySplitApi.injectEndpoints({
     }),
   }),
 });
-export const { useGetKeysQuery, useCreateKeyMutation, useCreatedKeysQuery } =
-  keyApi;
+export const {
+  useGetKeysQuery,
+  useCreateKeyMutation,
+  useCreatedKeysQuery,
+  useDeleteKeyMutation,
+} = keyApi;
