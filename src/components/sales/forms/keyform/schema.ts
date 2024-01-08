@@ -1,6 +1,6 @@
 import * as yup from "yup";
-const schema = yup
-  .object({
+const schema = (mode: "create" | "edit") =>
+  yup.object().shape({
     name: yup.string().required(),
     vendorId: yup.string().required(),
     image: yup.mixed().required(),
@@ -8,6 +8,8 @@ const schema = yup
     expirationDate: yup.date().required().min(new Date()),
     categoryId: yup.string().required(),
     value: yup.string().required(),
-  })
-  .required();
+    tax: yup.number().required().positive(),
+    photo:
+      mode === "edit" ? yup.mixed() : yup.mixed().required("Photo is required"),
+  });
 export default schema;

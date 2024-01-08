@@ -53,7 +53,6 @@ const baseQueryWithReauth: BaseQueryFn<
   const {
     auth: { jwtToken },
   } = api.getState() as RootState;
-  console.log(args);
   let result = await baseQuery(
     {
       ...args,
@@ -91,5 +90,6 @@ export const emptySplitApi = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReauth,
   endpoints: () => ({}),
+  tagTypes: ["Key", "Vendor", "User", "Category", "CreatedKeys"],
 });
 export { baseQueryWithReauth as axiosBaseQuery };

@@ -5,9 +5,10 @@ import Login from "./pages/login/Login";
 import { Box } from "@chakra-ui/react";
 import Register from "./pages/register/Register";
 import AuthPage from "../components/Page/AuthPage";
-import CreateKey from "./pages/createkey";
-import CreateVendor from "./pages/createvendor";
+import CreateKey from "./pages/sales/createkey";
+import CreateVendor from "./pages/sales/createvendor";
 import SalesLayout from "../layout/sales/Layout";
+import Sales from "./pages/sales";
 const Router = () => {
   return (
     <Routes>
@@ -31,7 +32,7 @@ const Router = () => {
           }
         >
           <Route element={<SalesLayout />}>
-            <Route path="/sales" element={<></>}></Route>
+            <Route path="/sales" element={<Sales />}></Route>
             <Route
               path="/sales/createkey"
               element={<CreateKey></CreateKey>}

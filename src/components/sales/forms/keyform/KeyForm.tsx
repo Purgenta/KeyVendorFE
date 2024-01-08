@@ -9,25 +9,25 @@ import {
   Text,
   Select,
 } from "@chakra-ui/react";
-import schema from "./validation";
 import { useGetCategoriesQuery } from "../../../../redux/api/category";
 import { useGetVendorsQuery } from "../../../../redux/api/vendor";
-import { useCreateKeyMutation } from "../../../../redux/api/key";
-const KeyForm = () => {
+import { KeyFormProps } from "./types";
+import schema from "./schema";
+const KeyForm = ({ mode, onSubmit, error }: KeyFormProps) => {
   const { register, handleSubmit } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema(mode)),
   });
-  const { data, error } = useGetCategoriesQuery();
+  const { data, error: categoriesError } = useGetCategoriesQuery();
   const { data: vendors, error: vendorsError } = useGetVendorsQuery();
-  const [createKey, { isLoading }] = useCreateKeyMutation();
   if (!data || !vendors) return <></>;
-  if (error || vendorsError)
+  if (vendorsError || categoriesError)
     return <Text color={"red.500"}>Something went wrong</Text>;
   return (
     <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
+      {error && <Text color={"red.500"}>{error}</Text>}
       <form
         onSubmit={handleSubmit((data) => {
-          createKey(data);
+          onSubmit(data);
         })}
       >
         <FormControl id="name" isRequired>
@@ -59,6 +59,10 @@ const KeyForm = () => {
         <FormControl id="price" isRequired>
           <FormLabel>Price</FormLabel>
           <Input type="number" {...register("price")} />
+        </FormControl>
+        <FormControl id="tax" isRequired>
+          <FormLabel>Tax</FormLabel>
+          <Input type="number" {...register("tax")} />
         </FormControl>
         <FormControl id="expirationDate" isRequired>
           <FormLabel>Expiration Date</FormLabel>

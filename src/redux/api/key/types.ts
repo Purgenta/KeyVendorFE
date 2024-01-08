@@ -8,4 +8,15 @@ export type CreateKey = {
   expirationDate: Date;
   categoryId: string;
   value: string;
+  tax: number;
+};
+export type KeyResponse = {
+  categoryId: string;
+  createdBy: string;
+  id: string;
+  licensedFor: null;
+  name: string;
+  price: number;
+  vendorId: string;
+  validUntil: Date;
 };

@@ -1,12 +1,15 @@
+import { PaginatedData } from "../../../types";
+import { RootState } from "../../store";
 import { emptySplitApi } from "../baseQuery";
 import type { CreateKey, Key } from "./types";
 export const keyApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getKeys: builder.query<Key[], void>({
       query: () => ({
-        url: "key/",
+        url: "key/find",
         method: "GET",
       }),
+      providesTags: ["Key"],
     }),
     createKey: builder.mutation<Key, CreateKey>({
       query: (data) => {
@@ -18,7 +21,7 @@ export const keyApi = emptySplitApi.injectEndpoints({
         formData.append("validUntil", data.expirationDate.toISOString());
         formData.append("categoryId", data.categoryId.toString());
         formData.append("photo", data.image[0]);
-        console.log(formData);
+        formData.append("tax", data.tax.toString());
         return {
           url: "key/create",
           method: "POST",
@@ -28,7 +31,52 @@ export const keyApi = emptySplitApi.injectEndpoints({
           },
         };
       },
+      invalidatesTags: ["Key", "CreatedKeys"],
+    }),
+    updateKey: builder.mutation<Key, CreateKey & { id: string }>({
+      query: (data) => ({
+        url: `key/${data.id}`,
+        method: "PUT",
+        data: {
+          name: data.name,
+          value: data.value,
+          vendorId: data.vendorId,
+          price: data.price,
+          validUntil: data.expirationDate.toISOString(),
+          categoryId: data.categoryId,
+          tax: data.tax,
+        },
+      }),
+      invalidatesTags: ["Key", "CreatedKeys"],
+    }),
+    deleteKey: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `key/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Key"],
+    }),
+    createdKeys: builder.query<
+      PaginatedData<Key>,
+      { page: number; size: number }
+    >({
+      queryFn: async (arg, { getState }, _, baseQuery) => {
+        const email = (getState() as RootState).auth.emailAddress;
+        const { page, size } = arg;
+        try {
+          const keys = (await baseQuery({
+            url: `key/find`,
+            method: "GET",
+            params: { email, page, size },
+          })) as unknown as { data: PaginatedData<Key> };
+          return { data: keys.data };
+        } catch (error) {
+          return { error };
+        }
+      },
+      providesTags: ["CreatedKeys"],
     }),
   }),
 });
-export const { useGetKeysQuery, useCreateKeyMutation } = keyApi;
+export const { useGetKeysQuery, useCreateKeyMutation, useCreatedKeysQuery } =
+  keyApi;

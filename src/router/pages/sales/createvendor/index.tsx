@@ -1,4 +1,4 @@
-import VendorForm from "../../../components/sales/forms/VendorForm/VendorForm";
+import VendorForm from "../../../../components/sales/forms/VendorForm/VendorForm";
 import { Box } from "@chakra-ui/react";
 const CreateVendor = () => {
   return (

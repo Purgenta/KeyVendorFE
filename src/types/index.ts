@@ -16,3 +16,10 @@ export type Key = {
   expirationDate: Date;
   category: string;
 };
+export type PaginatedData<T> = {
+  data: T[];
+  pagination: {
+    itemCount: number;
+    pageCount: number;
+  };
+};
