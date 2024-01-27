@@ -14,9 +14,14 @@ import { useGetVendorsQuery } from "../../../../redux/api/vendor";
 import { KeyFormProps } from "./types";
 import schema from "./schema";
 const KeyForm = ({ mode, onSubmit, error }: KeyFormProps) => {
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema(mode)),
   });
+  console.log(errors);
   const { data, error: categoriesError } = useGetCategoriesQuery();
   const { data: vendors, error: vendorsError } = useGetVendorsQuery();
   if (!data || !vendors) return <></>;
