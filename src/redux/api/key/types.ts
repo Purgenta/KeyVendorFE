@@ -10,6 +10,13 @@ export type CreateKey = {
   value: string;
   tax: number;
 };
+export type KeyFilter = {
+  name?: string;
+  categoryId?: string;
+  price?: number;
+  vendorId?: string;
+};
+
 export type KeyResponse = {
   categoryId: string;
   createdBy: string;

@@ -9,6 +9,7 @@ import CreateKey from "./pages/sales/createkey";
 import CreateVendor from "./pages/sales/createvendor";
 import SalesLayout from "../layout/sales/Layout";
 import Sales from "./pages/sales";
+import Search from "./pages/search";
 const Router = () => {
   return (
     <Routes>
@@ -24,6 +25,7 @@ const Router = () => {
       >
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
+        <Route path="/search" element={<Search />}></Route>
         <Route
           element={
             <>
