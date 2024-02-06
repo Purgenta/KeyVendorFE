@@ -1,7 +1,7 @@
 export type SearchFilterValues = {
   name?: string;
   categoryId?: string;
-  price?: number;
+  price?: string;
   vendorId?: string;
 };
 export type SearchFilterProps = {

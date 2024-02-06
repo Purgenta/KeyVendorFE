@@ -4,6 +4,7 @@ import { AxiosRequestConfig, AxiosError } from "axios";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 import { logout, updateToken } from "../slices/authSlice";
+const baseUrl = "http://localhost:5098/";
 const axiosBaseQuery =
   (
     { baseUrl }: { baseUrl: string } = { baseUrl: "http://localhost:5098/" }
@@ -38,7 +39,7 @@ const axiosBaseQuery =
       };
     }
   };
-const baseQuery = axiosBaseQuery({ baseUrl: "http://localhost:5098/" });
+const baseQuery = axiosBaseQuery({ baseUrl });
 const baseQueryWithReauth: BaseQueryFn<
   {
     url: string;
@@ -90,6 +91,7 @@ export const emptySplitApi = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReauth,
   endpoints: () => ({}),
+  refetchOnMountOrArgChange: true,
   tagTypes: ["Key", "Vendor", "User", "Category", "CreatedKeys"],
 });
-export { baseQueryWithReauth as axiosBaseQuery };
+export { baseQueryWithReauth as axiosBaseQuery, baseUrl };

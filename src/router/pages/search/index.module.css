@@ -1,0 +1,39 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.pagination a {
+  margin: 0 10px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  color: #666;
+}
+
+.pagination a:hover {
+  border-color: #5a6268;
+}
+
+.pagination .active a {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.pagination .break-me a {
+  cursor: default;
+  color: #999;
+}
+.key-box {
+  width: 300px; /* Adjust as needed */
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.key-box img {
+  width: 100%;
+  height: auto;
+}

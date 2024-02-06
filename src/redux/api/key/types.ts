@@ -13,9 +13,9 @@ export type CreateKey = {
 export type KeyFilter = {
   name?: string;
   categoryId?: string;
-  price?: number;
+  price?: string;
   vendorId?: string;
-};
+} & KeyPagination;
 
 export type KeyResponse = {
   categoryId: string;
@@ -27,3 +27,4 @@ export type KeyResponse = {
   vendorId: string;
   validUntil: Date;
 };
+export type KeyPagination = { page: number; size: number };

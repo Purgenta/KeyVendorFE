@@ -1,13 +1,14 @@
 import { PaginatedData } from "../../../types";
 import { RootState } from "../../store";
 import { emptySplitApi } from "../baseQuery";
-import type { CreateKey, Key } from "./types";
+import type { CreateKey, Key, KeyFilter } from "./types";
 export const keyApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    getKeys: builder.query<Key[], void>({
-      query: () => ({
+    getKeys: builder.query<PaginatedData<Key>, KeyFilter>({
+      query: (data) => ({
         url: "key/find",
         method: "GET",
+        params: data,
       }),
       providesTags: ["Key"],
     }),

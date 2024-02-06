@@ -3,7 +3,7 @@ export const schema = yup
   .object({
     name: yup.string().optional(),
     categoryId: yup.string().optional(),
-    price: yup.number().optional().positive(),
+    price: yup.string().optional(),
     vendorId: yup.string().optional(),
   })
   .required();
