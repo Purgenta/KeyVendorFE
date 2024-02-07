@@ -9,6 +9,7 @@ const initialState: InitialState = {
   jwtToken: undefined,
   isAuthenticated: false,
   failedLoginAttempts: 0,
+  money: 0,
 };
 const authSlice = createSlice({
   initialState,
@@ -19,13 +20,14 @@ const authSlice = createSlice({
       payload: PayloadAction<AuthenticateUserActionPayload>
     ) => {
       const {
-        payload: { emailAddress, jwtToken, roles },
+        payload: { emailAddress, jwtToken, roles, money },
       } = payload;
       state.emailAddress = emailAddress;
       state.jwtToken = jwtToken;
       state.roles = roles;
       state.isAuthenticated = true;
       state.failedLoginAttempts = 0;
+      state.money = money;
     },
     increaseFailedLoginAttempts: (state) => {
       state.failedLoginAttempts += 1;

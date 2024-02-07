@@ -9,4 +9,5 @@ export type AuthenticationResponse = {
   roles: Role[];
   jwtToken: string;
   emailAddress: string;
+  money: number;
 };

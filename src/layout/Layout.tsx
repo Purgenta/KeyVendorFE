@@ -225,6 +225,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   ml="2"
                 >
                   <Text fontSize="sm">{auth.emailAddress || ""}</Text>
+                  <Text fontSize="sm">
+                    {auth.money ? `Money: ${auth.money}` : ""}
+                  </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
                   <FiChevronDown />
