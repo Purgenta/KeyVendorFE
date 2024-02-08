@@ -26,3 +26,7 @@ export type OrderStatus = {
   value: number;
   name: string;
 };
+export type OverviewQueryArgs = {
+  startDate: Date;
+  endDate: Date;
+};

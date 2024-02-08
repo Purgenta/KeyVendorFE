@@ -1,6 +1,12 @@
 import { PaginatedData } from "../../../types";
 import { emptySplitApi } from "../baseQuery";
-import { CreateOrderArgs, FindByBuyerArgs, Order, OrderStatus } from "./types";
+import {
+  CreateOrderArgs,
+  FindByBuyerArgs,
+  Order,
+  OrderStatus,
+  OverviewQueryArgs,
+} from "./types";
 export const orderApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     createOrder: builder.mutation<void, CreateOrderArgs>({
@@ -40,6 +46,21 @@ export const orderApi = emptySplitApi.injectEndpoints({
       }),
       invalidatesTags: ["FindByBuyer", "FindBySeller"],
     }),
+    overview: builder.query<any, OverviewQueryArgs>({
+      query: () => ({
+        url: "order/overview",
+        method: "GET",
+      }),
+    }),
+    find: builder.query<
+      PaginatedData<Order>,
+      FindByBuyerArgs & { seller?: string; buyer?: string }
+    >({
+      query: () => ({
+        url: "order/find",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -49,4 +70,6 @@ export const {
   useStatusOptionsQuery,
   useFindBySellerQuery,
   useUpdateOrderStatusMutation,
+  useOverviewQuery,
+  useFindQuery,
 } = orderApi;
