@@ -37,6 +37,19 @@ const Navigation = () => {
             Create Vendor
           </Link>
         </ListItem>
+        <ListItem>
+          <Link
+            to="/sales/orders"
+            color="white"
+            backgroundColor="teal.500"
+            padding="2"
+            marginTop={"0"}
+            borderRadius="md"
+            _hover={{ textDecoration: "none", backgroundColor: "teal.600" }}
+          >
+            Orders
+          </Link>
+        </ListItem>
       </UnorderedList>
       <Outlet />
     </Box>

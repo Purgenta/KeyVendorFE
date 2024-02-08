@@ -45,6 +45,13 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Search", icon: FiTrendingUp, href: "/search" },
   { name: "Profile", icon: FiCompass, href: "/profile" },
 ];
+const AutenticatedRoutes: Array<LinkItemProps> = [
+  {
+    name: "Orders",
+    icon: FiImage,
+    href: "/orders",
+  },
+];
 const SalesMarketingItems: Array<LinkItemProps> = [
   { name: "Sales", icon: FiImage, href: "/sales" },
 ];
@@ -82,7 +89,7 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
-  const { roles } = useSelector(authSelector);
+  const { roles, isAuthenticated } = useSelector(authSelector);
   const isSales = !!roles && roles.includes("Sales");
   return (
     <Box
@@ -107,6 +114,18 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           icon={link.icon}
         />
       ))}
+      {isAuthenticated &&
+        AutenticatedRoutes.map((link) => {
+          return (
+            <NavItem
+              name={link.name}
+              color={"blackAlpha.500"}
+              href={link.href}
+              key={link.name}
+              icon={link.icon}
+            ></NavItem>
+          );
+        })}
       {isSales && (
         <>
           {SalesMarketingItems.map((link) => {

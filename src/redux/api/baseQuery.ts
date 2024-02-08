@@ -92,6 +92,15 @@ export const emptySplitApi = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: () => ({}),
   refetchOnMountOrArgChange: true,
-  tagTypes: ["Key", "Vendor", "User", "Category", "CreatedKeys"],
+  tagTypes: [
+    "Key",
+    "Vendor",
+    "User",
+    "Category",
+    "CreatedKeys",
+    "PersonalOrderedItems",
+    "FindBySeller",
+    "FindByBuyer",
+  ],
 });
 export { baseQueryWithReauth as axiosBaseQuery, baseUrl };

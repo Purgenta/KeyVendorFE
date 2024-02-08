@@ -10,6 +10,8 @@ import CreateVendor from "./pages/sales/createvendor";
 import SalesLayout from "../layout/sales/Layout";
 import Sales from "./pages/sales";
 import Search from "./pages/search";
+import Orders from "./pages/orders";
+import SalesOrders from "./pages/sales/orders";
 const Router = () => {
   return (
     <Routes>
@@ -26,6 +28,7 @@ const Router = () => {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/search" element={<Search />}></Route>
+        <Route path="/orders" element={<Orders />}></Route>
         <Route
           element={
             <>
@@ -43,6 +46,7 @@ const Router = () => {
               path="/sales/createvendor"
               element={<CreateVendor></CreateVendor>}
             ></Route>
+            <Route path="/sales/orders" element={<SalesOrders />} />
           </Route>
         </Route>
         <Route path="*" element={<></>}></Route>

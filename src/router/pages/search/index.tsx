@@ -33,7 +33,7 @@ const Search = () => {
   useEffect(() => {
     setQuery((prev) => ({ ...prev, ...pagination }));
   }, [pagination]);
-
+  console.log(money);
   return (
     <Box>
       <Heading>Search</Heading>
@@ -43,7 +43,11 @@ const Search = () => {
           return (
             <Box className={`${style["key-box"]}`} key={key.id}>
               <Box>
-                <Image src={`${baseUrl}key/photo/${key.id}`} />
+                <Image
+                  width={"200px"}
+                  height={"150px"}
+                  src={`${baseUrl}key/photo/${key.id}`}
+                />
                 <Flex gap={3}>
                   <Text fontSize="xl" fontWeight="bold">
                     {key.name}
@@ -54,7 +58,8 @@ const Search = () => {
                   </Text>
                 </Flex>
                 <Button
-                  onClick={() =>
+                  onClick={() => {
+                    if (money < key.price) return;
                     createOrder({ id: key.id })
                       .then(() => {
                         toast({
@@ -73,8 +78,8 @@ const Search = () => {
                           duration: 9000,
                           isClosable: true,
                         });
-                      })
-                  }
+                      });
+                  }}
                   backgroundColor={"blackAlpha.300"}
                   disabled={money < key.price}
                 >
